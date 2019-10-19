@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+<body class="d-flex flex-column h-100">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>penref // {{ page.title }}</title>
+    
+    <!-- CSS -->
+    <link href="/assets/bootstrap.css" rel="stylesheet">
+    <link href="/assets/main.css" rel="stylesheet">
+</head>
+
+    {% include nav.html %}
+                
+    <!-- Begin page -->
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            
+            <!-- Page title and subtitle -->
+            <head>
+                <h1 class="mt-5">
+                    <code><b><i>penref // {{ page.title }}</i></b></code>
+                </h1><br>
+            </head>
+            <section>
+                {{ content }}
+            </section>
+            
+        </div>
+    </main><br>
+    
+    {% include footer.html %}
+
+    <!-- JS -->
+    <script src="/assets/jquery-3.js"></script>
+    <script src="/assets/bootstrap.js"></script>
+    <script src="/assets/main.js"></script>
+
+</body>
+</html>

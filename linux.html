@@ -1,0 +1,138 @@
+---
+layout: base
+title: linux
+---
+
+<p class="lead">How do we pop mad shells on them *nix?</p>
+
+<!-- Enum -->
+<h3>Enumeration</h3>
+
+<!-- nmap -->
+{% assign header = "nmap" %}
+{% assign tabs = "nmap_loud|nmap_quiet" %}
+{% assign tabnames = "Loud|Quiet" %}
+{% assign content = 
+"
+
+<p>Run these in parallel.</p>
+
+SCODE
+<code>nmap -sC -sV -oG services.nmap RHOST &</code><br>
+<code>nmap -T5 -p- -oG alltcp.nmap RHOST &</code><br>
+<code>nmap -sU --max-retries 3 -oG udp.nmap RHOST &</code><br>    
+</div><br>
+
+
+<p>Follow up by scanning each interesting port found with <code>-sC -sV</code>.</p>
+<p>If stuck, hit 'em with the:</p>
+SCODE
+    <code>nmap -sU -p- --max-retries 3 -oG alludp.nmap RHOST</code>
+</div>
+
+|
+
+<p>Individually investigate interesting ports after output of the first command.</p>
+SCODE
+    <code>nmap -sT -Pn -T1 -oG quietscan RHOST</code><br>
+    <code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code><br>
+    <code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap RHOST</code><br>
+</div><br>
+<p>Or, just scan common ports.</p>
+SCODE
+    <code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code><br>
+</div><br>
+
+" %}
+{% include block.html %}
+
+
+<!-- Entry -->
+<h3>Entry</h3>
+
+<!-- ssh -->
+<h5>ssh // 22</h5>
+{% assign tabs = "ssh_bruteforcing|ssh_exploitation"%}
+{% assign tabnames = "Bruteforcing|Exploitation" %}
+{% assign content = 
+"
+bruetforcing
+
+|
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+" %}
+{% include block.html %}
+
+
+<!-- postgres -->
+<h5>postgres // 5432</h5>
+{% assign tabs = "psql_default_creds|psql_exploitation"%}
+{% assign tabnames = "Default Creds|Exploitation"%}
+{% assign content = 
+"
+bruetforcing
+
+|
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+"%}
+{% include block.html %}
+
+<!-- Privesc -->
+<h3>Privilege Escalation</h3>
+	
+<!-- ssh -->
+{% assign header = "ssh" %}
+{% assign tabs = "bruteforcing|exploitation" %}
+{% assign tabnames = "bruteforcing|exploitation" %}
+{% assign content = 
+"
+bruteforcing
+
+|
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+" %}
+{% include block.html %}
+
+<!-- Looting and Scrounging -->
+<h3>Looting and Scrounging</h3>
+
+<!-- other avenues of privesc -->
+<h5>Finding other Avenues of Privesc</h5>
+{% assign tabs = "other_privesc|" %}
+{% assign tabnames = "Standard Privesc" %}
+{% assign content = 
+"
+
+
+|
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+"%}
+{% include block.html %}
+
+<!--  -->
+{% assign header = "ssh" %}
+{% assign tabs = "other_privesc|" %}
+{% assign content = 
+"
+
+|
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+"%}
+{% include block.html %}
+
+<!-- finding other vulns -->
+<h5>Finding Informational Vulns</h5>
+
+
+
+

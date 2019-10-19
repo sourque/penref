@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+<body class="d-flex flex-column h-100">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>penref // linux</title>
+    
+    <!-- CSS -->
+    <link href="/assets/bootstrap.css" rel="stylesheet">
+    <link href="/assets/main.css" rel="stylesheet">
+</head>
+
+    <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    
+        <!-- Navbar Title -->
+        <a class="navbar-brand" href="index.html"><code><b><i>penref</i></b></code></a>
+        
+        <!-- Collapsable Menu Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navbar -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="windows">Windows</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="linux">Linux</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="webapp">Webapp</a>
+                </li>
+            </ul>
+            
+            <!-- LHOST / RHOST input -->
+            <form>
+                <div class="form-row justify-content-end">
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="LHOST">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="RHOST">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+</header>
+
+                
+    <!-- Begin page -->
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            
+            <!-- Page title and subtitle -->
+            <head>
+                <h1 class="mt-5">
+                    <code><b><i>penref // linux</i></b></code>
+                </h1><br>
+            </head>
+            <section>
+                <p class="lead">How do we pop mad shells on them *nix?</p>
+
+<!-- Enum -->
+<h3>Enumeration</h3>
+
+<!-- nmap -->
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#nmap_loud">Loud</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#nmap_quiet">Quiet</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="nmap_loud">
+        
+
+<p>Run these in parallel.</p>
+
+<div class='code' onclick='copyClipboard(this)'><span></span>
+<code>nmap -sC -sV -oG services.nmap RHOST &</code><br>
+<code>nmap -T5 -p- -oG alltcp.nmap RHOST &</code><br>
+<code>nmap -sU --max-retries 3 -oG udp.nmap RHOST &</code><br>    
+</div><br>
+
+
+<p>Follow up by scanning each interesting port found with <code>-sC -sV</code>.</p>
+<p>If stuck, hit 'em with the:</p>
+<div class='code' onclick='copyClipboard(this)'><span></span>
+    <code>nmap -sU -p- --max-retries 3 -oG alludp.nmap RHOST</code>
+</div>
+
+
+    </div>
+    
+    
+    <div class="tab-pane" id="nmap_quiet">
+        
+
+<p>Individually investigate interesting ports after output of the first command.</p>
+<div class='code' onclick='copyClipboard(this)'><span></span>
+    <code>nmap -sT -Pn -T1 -oG quietscan RHOST</code><br>
+    <code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code><br>
+    <code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap RHOST</code><br>
+</div><br>
+<p>Or, just scan common ports.</p>
+<div class='code' onclick='copyClipboard(this)'><span></span>
+    <code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code><br>
+</div><br>
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
+
+<!-- Entry -->
+<h3>Entry</h3>
+
+<!-- ssh -->
+<h5>ssh // 22</h5>
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#ssh_bruteforcing">Bruteforcing</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#ssh_exploitation">Exploitation</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="ssh_bruteforcing">
+        
+bruetforcing
+
+
+    </div>
+    
+    
+    <div class="tab-pane" id="ssh_exploitation">
+        
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
+
+<!-- postgres -->
+<h5>postgres // 5432</h5>
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#psql_default_creds">Default Creds</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#psql_exploitation">Exploitation</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="psql_default_creds">
+        
+bruetforcing
+
+
+    </div>
+    
+    
+    <div class="tab-pane" id="psql_exploitation">
+        
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
+<!-- Privesc -->
+<h3>Privilege Escalation</h3>
+	
+<!-- ssh -->
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#bruteforcing">bruteforcing</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#exploitation">exploitation</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="bruteforcing">
+        
+bruteforcing
+
+
+    </div>
+    
+    
+    <div class="tab-pane" id="exploitation">
+        
+
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
+<!-- Looting and Scrounging -->
+<h3>Looting and Scrounging</h3>
+
+<!-- other avenues of privesc -->
+<h5>Finding other Avenues of Privesc</h5>
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#other_privesc">Standard Privesc</a>
+    </li>
+    
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="other_privesc">
+        
+
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
+<!--  -->
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#other_privesc">["Standard Privesc"]</a>
+    </li>
+    
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="other_privesc">
+        
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
+<!-- finding other vulns -->
+<h5>Finding Informational Vulns</h5>
+
+
+
+
+
+            </section>
+            
+        </div>
+    </main><br>
+    
+    <!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <span class="text-muted">
+            @543hn // Made with Bootstrap and 
+            <img src="/assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
+        </span>
+    </div>
+</footer>
+
+
+
+    <!-- JS -->
+    <script src="/assets/jquery-3.js"></script>
+    <script src="/assets/bootstrap.js"></script>
+    <script src="/assets/main.js"></script>
+
+</body>
+</html>
