@@ -1,27 +1,160 @@
 <!DOCTYPE html>
+<html class="h-100" lang="en">
 
-<html>
-	<head>
-		<title>penref // linux</title>
-	</head>
-	<body>
-		<nav>
-			bootstrap here lol
-			cool css for code, make pretty
-			recon and osint (questionable)
-			methodology
-			webapp
-			windows
-				entry
-				privesc
-				loot
-			linux
-				entry
-				privesc
-				loot
-		</nav>
-		<main>
-			<h1><code>penref // webapp</code></h1>
+
+<head>
+    <meta charset="utf-8">
+    <title>penref // webapp</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/main.css">
+    <style type="text/css">
+		.hidden {display:none;}
+    </style>
+    <script type="text/javascript" src="/assets/jquery.min.js"></script>
+    <script type="text/javascript">
+		$('html').addClass('hidden');
+		$(document).ready(function() {
+		  $('html').show();
+		  $('#hosts').click(function() {
+		       $('.RHOST').text($('#RHOST').val().trim());
+		       $('.LHOST').text($('#LHOST').val().trim());
+		  });
+	    });
+   </script>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    
+        <!-- Navbar Title -->
+        <a class="navbar-brand" href="index.html"><b><i>penref</i></b></a>
+        
+        <!-- Collapsable Menu Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navbar -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/windows">Windows</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/linux">Linux</a>
+                </li>
+                </li>
+                    <li class="nav-item active">
+                    <a class="nav-link" href="/webapp">Webapp</a>
+                </li>
+            </ul>
+            
+            <!-- LHOST / RHOST input -->
+            <form>
+                <div class="form-row justify-content-end">
+                    <div class="col-sm-3">
+                        <input id="LHOST" "type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="LHOST">
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="RHOST" type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="RHOST">
+                    </div>
+                    <div class="col-auto">
+                        <button id="hosts" type="button" class="btn btn-sm btn-primary">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+</header>
+
+                
+    <!-- Begin page -->
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            
+            <!-- Page title and subtitle -->
+            <h1 class="mt-5">
+                <code><b><i>penref // webapp</i></b></code>
+            </h1><br>
+            <section>
+                <p class="lead">The web was meant to handle all the world's traffic...</p>
+
+<!-- Enumeration -->
+<h3>Enumeration</h3>
+
+<!-- nmap -->
+<h5>nmap</h5>
+
+  
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#nmap_loud">Loud</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#nmap_quiet">Quiet</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="nmap_loud">
+        
+<p>Run these in parallel.</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sC -sV -oG services.nmap & </code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -T5 -p- -oG alltcp.nmap <span class='RHOST'>RHOST</span> & </code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU --max-retries 3 -oG udp.nmap <span class='RHOST'>RHOST</span> & </code>
+</div><br>
+<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
+<p>If stuck, hit 'em with the:</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap <span class='RHOST'>RHOST</span></code>
+</div>
+
+
+    </div>
+    
+    
+    <div class="tab-pane" id="nmap_quiet">
+        
+
+<p>Individually investigate interesting ports after output of the first command.</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sT -Pn -T1 -oG quietscan <span class='RHOST'>RHOST</span></code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>    
+<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap <span class='RHOST'>RHOST</span></code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap <span class='RHOST'>RHOST</span></code>
+</div><br>
+<p>Or, just scan common ports.</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap <span class='RHOST'>RHOST</span> &</code>
+</div>
+    </div>
+    
+    
+</div><br>
+
+
 				
 			initial access
 				gobuster [gobuster link] [wordlist download]
@@ -50,3 +183,27 @@
 				searchsploit [webapp]
 
 
+
+            </section>
+            
+        </div>
+    </main><br>
+    
+    <!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <span class="text-muted">
+            @sourque // made with bootstrap and 
+            <img src="/assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
+        </span>
+    </div>
+</footer>
+
+
+
+    <!-- JS -->
+    <script src="/assets/bootstrap.js"></script>
+    <script src="/assets/main.js"></script>
+
+</body>
+</html>

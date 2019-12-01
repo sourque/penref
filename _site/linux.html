@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html class="h-100" lang="en">
-<body class="d-flex flex-column h-100">
+
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>penref // linux</title>
     
     <!-- CSS -->
-    <link href="/assets/bootstrap.css" rel="stylesheet">
-    <link href="/assets/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/bootstrap.css">
+    <link rel="stylesheet" href="/assets/main.css">
+    <style type="text/css">
+		.hidden {display:none;}
+    </style>
+    <script type="text/javascript" src="/assets/jquery.min.js"></script>
+    <script type="text/javascript">
+		$('html').addClass('hidden');
+		$(document).ready(function() {
+		  $('html').show();
+		  $('#hosts').click(function() {
+		       $('.RHOST').text($('#RHOST').val().trim());
+		       $('.LHOST').text($('#LHOST').val().trim());
+		  });
+	    });
+   </script>
 </head>
 
+<body class="d-flex flex-column h-100">
     <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     
         <!-- Navbar Title -->
-        <a class="navbar-brand" href="index.html"><code><b><i>penref</i></b></code></a>
+        <a class="navbar-brand" href="index.html"><b><i>penref</i></b></a>
         
         <!-- Collapsable Menu Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
@@ -31,14 +45,14 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="windows">Windows</a>
+                    <a class="nav-link" href="/windows">Windows</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="linux">Linux</a>
+                    <a class="nav-link" href="/linux">Linux</a>
                 </li>
                 </li>
                     <li class="nav-item ">
-                    <a class="nav-link" href="webapp">Webapp</a>
+                    <a class="nav-link" href="/webapp">Webapp</a>
                 </li>
             </ul>
             
@@ -46,13 +60,13 @@
             <form>
                 <div class="form-row justify-content-end">
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="LHOST">
+                        <input id="LHOST" "type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="LHOST">
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="RHOST">
+                        <input id="RHOST" type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="RHOST">
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        <button id="hosts" type="button" class="btn btn-sm btn-primary">Update</button>
                     </div>
                 </div>
             </form>
@@ -66,23 +80,19 @@
         <div class="container">
             
             <!-- Page title and subtitle -->
-            <head>
-                <h1 class="mt-5">
-                    <code><b><i>penref // linux</i></b></code>
-                </h1><br>
-            </head>
+            <h1 class="mt-5">
+                <code><b><i>penref // linux</i></b></code>
+            </h1><br>
             <section>
                 <p class="lead">How do we pop mad shells on them *nix?</p>
 
-<!-- Enum -->
+<!-- Enumeration -->
 <h3>Enumeration</h3>
 
 <!-- nmap -->
+<h5>nmap</h5>
 
-
-
-
-
+  
 
 
 
@@ -102,20 +112,20 @@
 <div class="tab-content">
     <div class="tab-pane show active" id="nmap_loud">
         
-
 <p>Run these in parallel.</p>
-
-<div class='code' onclick='copyClipboard(this)'><span></span>
-<code>nmap -sC -sV -oG services.nmap RHOST &</code><br>
-<code>nmap -T5 -p- -oG alltcp.nmap RHOST &</code><br>
-<code>nmap -sU --max-retries 3 -oG udp.nmap RHOST &</code><br>    
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sC -sV -oG services.nmap & </code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -T5 -p- -oG alltcp.nmap <span class='RHOST'>RHOST</span> & </code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU --max-retries 3 -oG udp.nmap <span class='RHOST'>RHOST</span> & </code>
 </div><br>
-
-
-<p>Follow up by scanning each interesting port found with <code>-sC -sV</code>.</p>
+<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
 <p>If stuck, hit 'em with the:</p>
-<div class='code' onclick='copyClipboard(this)'><span></span>
-    <code>nmap -sU -p- --max-retries 3 -oG alludp.nmap RHOST</code>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap <span class='RHOST'>RHOST</span></code>
 </div>
 
 
@@ -126,22 +136,23 @@
         
 
 <p>Individually investigate interesting ports after output of the first command.</p>
-<div class='code' onclick='copyClipboard(this)'><span></span>
-    <code>nmap -sT -Pn -T1 -oG quietscan RHOST</code><br>
-    <code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code><br>
-    <code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap RHOST</code><br>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sT -Pn -T1 -oG quietscan <span class='RHOST'>RHOST</span></code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>    
+<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap <span class='RHOST'>RHOST</span></code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap <span class='RHOST'>RHOST</span></code>
 </div><br>
 <p>Or, just scan common ports.</p>
-<div class='code' onclick='copyClipboard(this)'><span></span>
-    <code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code><br>
-</div><br>
-
-
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap <span class='RHOST'>RHOST</span> &</code>
+</div>
     </div>
     
     
 </div><br>
-
 
 
 
@@ -150,10 +161,7 @@
 
 <!-- ssh -->
 <h5>ssh // 22</h5>
-
-
-
-
+   
 
 
 
@@ -197,8 +205,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <h5>postgres // 5432</h5>
 
 
-
-
+ 
 
 
 
@@ -218,7 +225,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <div class="tab-content">
     <div class="tab-pane show active" id="psql_default_creds">
         
-bruetforcing
+
 
 
     </div>
@@ -237,15 +244,60 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 
 
+<!-- redis -->
+<h5>redis // 6379</h5>
+
+
+ 
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#redis_creds">Default Creds</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#redis_exploit">Exploitation</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="redis_creds">
+        
+
+Redis default creds are nonexistent (try with <span><code>rediscli -h <span class='RHOST'>RHOST</span></code></span>).
+
+
+    </div>
+    
+    
+    <div class="tab-pane" id="redis_exploit">
+        
+
+Redis (4.x/5.x) RCE can be achieved through two misconfiguraitons.
+<ol>
+    <li>Malicious module uploading via <span><code>slaveof</code></span> command (<a href='https://github.com/Ridter/redis-rce'>script</a>)</li>
+    <li>Misconfiguration of allowing backup to overwrite SSH <span><code>authorized_keys</code></span> (<a href='https://github.com/Avinash-acid/Redis-Server-Exploit/blob/master/redis.py'>script</a>)</li>
+</ol>
+
+
+    </div>
+    
+    
+</div><br>
+
+
+
 <!-- Privesc -->
 <h3>Privilege Escalation</h3>
 	
 <!-- ssh -->
 
-
-
-
-
+  
 
 
 
@@ -287,10 +339,9 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <!-- Looting and Scrounging -->
 <h3>Looting and Scrounging</h3>
 
-<!-- other avenues of privesc -->
+<!-- Other Avenues -->
 <h5>Finding other Avenues of Privesc</h5>
-
-
+ 
 
 
 
@@ -320,8 +371,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <!--  -->
 
 
-
-
+ 
 
 
 
@@ -345,9 +395,8 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 
 
-<!-- finding other vulns -->
+<!-- Informational Vulns -->
 <h5>Finding Informational Vulns</h5>
-
 
 
 
@@ -361,7 +410,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <footer class="footer mt-auto py-3">
     <div class="container">
         <span class="text-muted">
-            @543hn // Made with Bootstrap and 
+            @sourque // made with bootstrap and 
             <img src="/assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
         </span>
     </div>
@@ -370,7 +419,6 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 
     <!-- JS -->
-    <script src="/assets/jquery-3.js"></script>
     <script src="/assets/bootstrap.js"></script>
     <script src="/assets/main.js"></script>
 

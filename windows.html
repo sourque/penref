@@ -1,54 +1,49 @@
-<!DOCTYPE html>
+---
+layout: base
+title: windows
+---
 
-<html>
-	<head>
-		<title>penref // linux</title>
-	</head>
-	<body>
-		<nav>
-			bootstrap here lol
-			cool css for code, make pretty
-			recon and osint (questionable)
-			methodology
-			webapp
-			windows
-				entry
-				privesc
-				loot
-			linux
-				entry
-				privesc
-				loot
-		</nav>
-		<main>
-			<h1><code>penref // webapp</code></h1>
-				
+<p class="lead">How do we exploit Windows, or do we just wait a few minutes until it inevitably falls apart?</p>
+
+<!-- Enumeration -->
+<h3>Enumeration</h3>
+
+<!-- nmap -->
+<h5>nmap</h5>
+{% assign tabs = "nmap_loud|nmap_quiet" %}
+{% assign tabnames = "Loud|Quiet" %} {% assign content = "
+<p>Run these in parallel.</p>
+SCODE
+<code>nmap -sC -sV -oG services.nmap & </code>
+</div>
+SCODE
+<code>nmap -T5 -p- -oG alltcp.nmap RHOST & </code>
+</div>
+SCODE
+<code>nmap -sU --max-retries 3 -oG udp.nmap RHOST & </code>
+</div><br>
+<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
+<p>If stuck, hit 'em with the:</p>
+SCODE
+<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap RHOST</code>
+</div>
+
+|
+
+<p>Individually investigate interesting ports after output of the first command.</p>
+SCODE
+<code>nmap -sT -Pn -T1 -oG quietscan RHOST</code>
+</div>
+SCODE    
+<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code>
+</div>
+SCODE
+<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap RHOST</code>
+</div><br>
+<p>Or, just scan common ports.</p>
+SCODE
+<code>nmap -sT -T4 -P0 -T2 -p80,445 -oG common.nmap RHOST &</code>
+</div>" %} {% include block.html %}
 			
-
-			initial access
-				gobuster [gobuster link] [wordlist download]
-				[gobuster syntax]
-
-				nikto [nikto syntax]
-
-				check robots.txt
-				find forms, editable fields, user input, login forms
-					try to make account, check for sql injections, xss, editable pages
-				sqlmap [sqlmap syntax]
-				check source code
-
-				scrape webpage (wordlist maker) [wordlist maker link]
-				bruteforce things [hydra or other] [hyra or other syntax]
-
-				use developer tools (or burp i GUESSSSS)
-				check post forms, insecure headers, get parameters
-
-				check cookies (serialized php, session, etc)
-
-				[node.js stuff here... api stuff]
-				rpc stuff
-			
-				common exploits
-				searchsploit [webapp]
 
 

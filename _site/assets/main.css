@@ -30,6 +30,7 @@ main .tab-content {
     border-left: 1px solid #dee2e6;
     border-right: 1px solid #dee2e6;
     border-bottom: 1px solid #dee2e6;
+	box-shadow: 1px 2px 2px gray;
 }
 
 main code {
@@ -38,15 +39,20 @@ main code {
   color: black;
 }
 
+main span code {
+  background-image: linear-gradient(to right, #fce3ed, #ffe8cd);
+}
+
 main div .code {
   background-image: linear-gradient(to right, #fce3ed, #ffe8cd);
   padding: 0.3em 0.45em;
+  margin: 0.5em 0;
   border-radius: 0.3em;
   position: relative;
   z-index: 100;
 }
 
-main div span {
+main div span.fade {
   position: absolute;
   z-index: -1;
   top: 0;

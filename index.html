@@ -2,16 +2,36 @@
 layout: base
 title: home
 ---
-			bootstrap here lol
-			recon and osint (questionable)
-			methodology
-			webapp
-			windows
-				entry
-				privesc
-				loot
-			linux
-				entry
-				privesc
-				loot
 
+<p class="lead">How should we operate?</p>
+
+<!-- Methodology -->
+<h3>Methodology</h3>
+
+<h5>Assigning Boxes</h5>
+{% assign tabs = "sc_linux|sc_windows" %}
+{% assign tabnames = "*nix|Windows" %} {% assign content = "
+<span><code>CTRL + SHIFT + Print Screen</code></span> then paste into a Google (or Word) Doc.
+|
+<span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
+" %} {% include block.html %}
+
+<h5>Screenshots</h5>
+{% assign tabs = "sc_linux|sc_windows" %}
+{% assign tabnames = "*nix|Windows" %} {% assign content = "
+<span><code>CTRL + SHIFT + Print Screen</code></span> then paste into a Google (or Word) Doc.
+|
+<span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
+" %} {% include block.html %}
+
+<!-- Recon -->
+<h3>Reconnaissance and OSINT</h3>
+<h5>nmap</h5>
+{% assign tabs = "nmap_loud|nmap_quiet" %}
+{% assign tabnames = "Loud|Quiet" %} {% assign content = "
+asdasdsad
+
+|
+
+asdasdsadasd
+" %} {% include block.html %}

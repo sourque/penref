@@ -13,9 +13,7 @@ function copyClipboard(container) {
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand("Copy");
-  }a
-
-alert("fail");
+  }
 }
 
 // lhost/rhost replacement here

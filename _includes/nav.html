@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     
         <!-- Navbar Title -->
-        <a class="navbar-brand" href="index.html"><code><b><i>penref</i></b></code></a>
+        <a class="navbar-brand" href="index.html"><b><i>penref</i></b></a>
         
         <!-- Collapsable Menu Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
@@ -17,14 +17,14 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item {% if page.title == 'windows' %}active{% endif %}">
-                    <a class="nav-link" href="windows">Windows</a>
+                    <a class="nav-link" href="/windows">Windows</a>
                 </li>
                 <li class="nav-item {% if page.title == 'linux' %}active{% endif %}">
-                    <a class="nav-link" href="linux">Linux</a>
+                    <a class="nav-link" href="/linux">Linux</a>
                 </li>
                 </li>
                     <li class="nav-item {% if page.title == 'webapp' %}active{% endif %}">
-                    <a class="nav-link" href="webapp">Webapp</a>
+                    <a class="nav-link" href="/webapp">Webapp</a>
                 </li>
             </ul>
             
@@ -32,13 +32,13 @@
             <form>
                 <div class="form-row justify-content-end">
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="LHOST">
+                        <input id="LHOST" "type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="LHOST">
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="RHOST">
+                        <input id="RHOST" type="text" class="form-control form-control-sm" id="inlineFormInputName" placeholder="RHOST">
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        <button id="hosts" type="button" class="btn btn-sm btn-primary">Update</button>
                     </div>
                 </div>
             </form>

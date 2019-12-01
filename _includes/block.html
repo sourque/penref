@@ -17,12 +17,12 @@
 
 <div class="tab-content">
     <div class="tab-pane show active" id="{{ tabs[0] }}">
-        {{ content[0] | replace: "SCODE", "<div class='code' onclick='copyClipboard(this)'><span></span>"  }}
+        {{ content[0] | replace: "SCODE", "<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>" | replace: "RHOST", "<span class='RHOST'>RHOST</span>" | replace: "LHOST", "<span class='LHOST'>LHOST</span>" }}
     </div>
     {% assign i = 1 %}
     {% for tab in tabs offset:1 %}
     <div class="tab-pane" id="{{ tab }}">
-        {{ content[i] | replace: "SCODE", "<div class='code' onclick='copyClipboard(this)'><span></span>" }}
+        {{ content[i] | replace: "SCODE", "<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>" | replace: "RHOST", "<span class='RHOST'>RHOST</span>" | replace: "LHOST", "<span class='LHOST'>LHOST</span> }}
     </div>
     {% assign i = i | plus: 1 %}
     {% endfor %}
