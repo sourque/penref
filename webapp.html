@@ -3,55 +3,68 @@ layout: base
 title: webapp
 ---
 
-<p class="lead">The web was meant to handle all the world's traffic...</p>
+<p class="lead">Webapp pentesting; often juicy low-hanging fruit</p>
 
-<!-- Enumeration -->
 <h3>Enumeration</h3>
 
-<!-- nmap -->
-<h5>nmap</h5>
-{% assign tabs = "nmap_loud|nmap_quiet" %}
-{% assign tabnames = "Loud|Quiet" %} {% assign content = "
-<p>Run these in parallel.</p>
-SCODE
-<code>nmap -sC -sV -oG services.nmap & </code>
-</div>
-SCODE
-<code>nmap -T5 -p- -oG alltcp.nmap RHOST & </code>
-</div>
-SCODE
-<code>nmap -sU --max-retries 3 -oG udp.nmap RHOST & </code>
-</div><br>
-<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
-<p>If stuck, hit 'em with the:</p>
-SCODE
-<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap RHOST</code>
-</div>
-
+<h5>OSINT</h5>
+{% assign tabs = "wb_cert|wb_whois|wb_robots" %}
+{% assign tabnames = "CA and Cert|WHOIS|robots.txt" %} {% assign content = "
+Sometimes there's valuable info in the certificate of a website. Make sure to check it, especially if your browser alerts you that something's wrong.
 |
+A <span><code>whois</code></span> lookup helps sometimes.
+SCODE
+<code>whois RHOST</code>
+</div>
+|
+Make sure to check the <span><code>robots.txt</code></span> of the website.
+" %} {% include block.html %}
 
-<p>Individually investigate interesting ports after output of the first command.</p>
+<h5>GoBuster</h5>
+{% assign tabs = "gb_direnum|gb_install" %}
+{% assign tabnames = "GoBuster Dir Enumeration|Install" %} {% assign content = "
+Enumerate a site's directories:
 SCODE
-<code>nmap -sT -Pn -T1 -oG quietscan RHOST</code>
+<code>gobuster dir -u http://RHOST/ -w /usr/share/wordlists/dirb/common.txt</code>
 </div>
-SCODE    
-<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code>
+|
+<span><code>GoBuster</code></span> binaries can be found <a href='https://github.com/OJ/gobuster/releases'>here</a>." %} {% include block.html %}
+
+<h5>wfuzz</h5>
+{% assign tabs = "wfuzz1|wfuzz2" %}
+{% assign tabnames = "wfuzzone|wfuzztwo" %} {% assign content = "
+wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool.
+|
+wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool. #2." %} {% include block.html %}
+
+<h3>Entry</h3>
+
+<h5>PHP Shells</h5>
+{% assign tabs = "ws_weevely|ws_p0wny" %}
+{% assign tabnames = "Weevely PHP Shell Generator|p0wny PHP Shell" %} {% assign content = "
+Weevely can generate compact binding webshells. Build:
+SCODE
+<code>weevely generate password ./shell.php</code>
 </div>
+Connect:
 SCODE
-<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap RHOST</code>
-</div><br>
-<p>Or, just scan common ports.</p>
-SCODE
-<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code>
-</div>" %} {% include block.html %}
+<code>weevely RHOST/shell.php password</code>
+</div>
+|
+<span><code>p0wny</code></span> binding webshell can be found <a href='https://raw.githubusercontent.com/flozz/p0wny-shell/master/shell.php'>here</a>." %} {% include block.html %}
+
+<h5>HTTP Auth</h5>
+{% assign tabs = "httpauth_vbypass|httpauth_bruteforce" %}
+{% assign tabnames = "Verb Bypass|Bruteforcing" %} {% assign content = "
+1
+|
+2
+" %} {% include block.html %}
 				
-			initial access
-				gobuster [gobuster link] [wordlist download]
-				[gobuster syntax]
-
+<!--
 				nikto [nikto syntax]
 
-				check robots.txt
+
 				find forms, editable fields, user input, login forms
 					try to make account, check for sql injections, xss, editable pages
 				sqlmap [sqlmap syntax]
@@ -69,6 +82,6 @@ SCODE
 				rpc stuff
 			
 				common exploits
-				searchsploit [webapp]
+				searchsploit [webapp] -->
 
 

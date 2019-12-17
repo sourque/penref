@@ -1,0 +1,24 @@
+---
+layout: base
+title: methodology
+---
+
+<p class="lead">How should we operate?</p>
+
+<h5>Assigning Boxes</h5>
+{% assign tabs = "assign_withtime|assign_withouttime" %}
+{% assign tabnames = "Fewer Boxes (1 - 20)|More Boxes (20+)" %} {% assign content = "
+Don't use <span><code>massscan</code></span> if time permits, it is more prone to false positives and missing ports (and is noisier) than targeted <span><code>nmap</code></span> scans. Create a spreadsheet containing all IPs and quick notes (ports, services, etc) and a Google Doc for each IP (for screenshots and vulns).
+|
+<span><code>massscan</code></span> that sucker, assign boxes based on expertise and focus on web/open databases first, then try to get domain access as soon as possible (Windows) or just take it slow and steady on Linux machines.
+" %} {% include block.html %}
+
+<h5>Screenshots</h5>
+{% assign tabs = "sc_linux|sc_windows" %}
+{% assign tabnames = "*nix|Windows" %} {% assign content = "
+<span><code>CTRL + SHIFT + Print Screen</code></span> then paste into a Google (or Word) Doc.
+|
+<span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
+" %} {% include block.html %}
+
+

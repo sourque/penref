@@ -4,15 +4,15 @@
 
 <head>
     <meta charset="utf-8">
-    <title>penref // home</title>
+    <title>penref // general</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/assets/bootstrap.css">
-    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/main.css">
     <style type="text/css">
 		.hidden {display:none;}
     </style>
-    <script type="text/javascript" src="/assets/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/jquery.min.js"></script>
     <script type="text/javascript">
 		$('html').addClass('hidden');
 		$(document).ready(function() {
@@ -41,18 +41,26 @@
         <!-- Navbar -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
+                <li class="nav-item ">
+                    <a class="nav-link" href="index.html">General</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/windows">Windows</a>
+                    <a class="nav-link" href="windows.html">Windows</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/linux">Linux</a>
+                    <a class="nav-link" href="linux.html">Linux</a>
                 </li>
                 </li>
                     <li class="nav-item ">
-                    <a class="nav-link" href="/webapp">Webapp</a>
+                    <a class="nav-link" href="webapp.html">Webapp</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="methodology.html">Methodology</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="extra.html">Extra</a>
                 </li>
             </ul>
             
@@ -81,92 +89,12 @@
             
             <!-- Page title and subtitle -->
             <h1 class="mt-5">
-                <code><b><i>penref // home</i></b></code>
+                <code><b><i>general</i></b></code>
             </h1><br>
             <section>
-                <p class="lead">How should we operate?</p>
+                <p class="lead">General pentesting snippets for Linux and Windows</p>
 
-<!-- Methodology -->
-<h3>Methodology</h3>
-
-<h5>Assigning Boxes</h5>
-
-  
-
-
-
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link show active" data-toggle="tab" href="#sc_linux">*nix</a>
-    </li>
-    
-     
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#sc_windows">Windows</a>
-        </li>
-        
-    
-</ul>
-
-<div class="tab-content">
-    <div class="tab-pane show active" id="sc_linux">
-        
-<span><code>CTRL + SHIFT + Print Screen</code></span> then paste into a Google (or Word) Doc.
-
-    </div>
-    
-    
-    <div class="tab-pane" id="sc_windows">
-        
-<span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
-
-    </div>
-    
-    
-</div><br>
-
-
-
-<h5>Screenshots</h5>
-
-  
-
-
-
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link show active" data-toggle="tab" href="#sc_linux">*nix</a>
-    </li>
-    
-     
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#sc_windows">Windows</a>
-        </li>
-        
-    
-</ul>
-
-<div class="tab-content">
-    <div class="tab-pane show active" id="sc_linux">
-        
-<span><code>CTRL + SHIFT + Print Screen</code></span> then paste into a Google (or Word) Doc.
-
-    </div>
-    
-    
-    <div class="tab-pane" id="sc_windows">
-        
-<span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
-
-    </div>
-    
-    
-</div><br>
-
-
-
-<!-- Recon -->
-<h3>Reconnaissance and OSINT</h3>
+<h3>Enumeration</h3>
 <h5>nmap</h5>
 
   
@@ -189,22 +117,52 @@
 <div class="tab-content">
     <div class="tab-pane show active" id="nmap_loud">
         
-asdasdsad
-
+<p>Run these in parallel.</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sC -sV -oG services.nmap & </code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -T5 -p- -oG alltcp.nmap <span class='RHOST'>RHOST</span> & </code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU --max-retries 3 -oG udp.nmap <span class='RHOST'>RHOST</span> & </code>
+</div><br>
+<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
+<p>If stuck, hit 'em with the:</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap <span class='RHOST'>RHOST</span></code>
+</div>
 
     </div>
     
     
     <div class="tab-pane" id="nmap_quiet">
         
-
-asdasdsadasd
-
+<p>Individually investigate interesting ports after output of the first command.</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sT -Pn -T1 -oG quietscan <span class='RHOST'>RHOST</span></code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>    
+<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap <span class='RHOST'>RHOST</span></code>
+</div>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap <span class='RHOST'>RHOST</span></code>
+</div><br>
+<p>Or, just scan common ports.</p>
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap <span class='RHOST'>RHOST</span> &</code>
+</div>
     </div>
     
     
 </div><br>
 
+
+
+
+<br><hr>
+Questions? Contact:<br>
+<b>Shane Donahue</b> (<a href="https://github.com/sourque">github</a>) (<a href="mailto:shane@sourque.dev">email</a>)<br><br>
 
 
             </section>
@@ -216,8 +174,8 @@ asdasdsadasd
 <footer class="footer mt-auto py-3">
     <div class="container">
         <span class="text-muted">
-            @sourque // made with bootstrap and 
-            <img src="/assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
+            @<a href="https://github.com/sourque">sourque</a> // made with bootstrap and 
+            <img src="assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
         </span>
     </div>
 </footer>
@@ -225,8 +183,8 @@ asdasdsadasd
 
 
     <!-- JS -->
-    <script src="/assets/bootstrap.js"></script>
-    <script src="/assets/main.js"></script>
+    <script src="assets/bootstrap.js"></script>
+    <script src="assets/main.js"></script>
 
 </body>
 </html>

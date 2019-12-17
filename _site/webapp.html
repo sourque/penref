@@ -7,12 +7,12 @@
     <title>penref // webapp</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/assets/bootstrap.css">
-    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/main.css">
     <style type="text/css">
 		.hidden {display:none;}
     </style>
-    <script type="text/javascript" src="/assets/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/jquery.min.js"></script>
     <script type="text/javascript">
 		$('html').addClass('hidden');
 		$(document).ready(function() {
@@ -42,17 +42,25 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="index.html">General</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/windows">Windows</a>
+                    <a class="nav-link" href="windows.html">Windows</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/linux">Linux</a>
+                    <a class="nav-link" href="linux.html">Linux</a>
                 </li>
                 </li>
                     <li class="nav-item active">
-                    <a class="nav-link" href="/webapp">Webapp</a>
+                    <a class="nav-link" href="webapp.html">Webapp</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="methodology.html">Methodology</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="extra.html">Extra</a>
                 </li>
             </ul>
             
@@ -81,16 +89,14 @@
             
             <!-- Page title and subtitle -->
             <h1 class="mt-5">
-                <code><b><i>penref // webapp</i></b></code>
+                <code><b><i>webapp</i></b></code>
             </h1><br>
             <section>
-                <p class="lead">The web was meant to handle all the world's traffic...</p>
+                <p class="lead">Webapp pentesting; often juicy low-hanging fruit</p>
 
-<!-- Enumeration -->
 <h3>Enumeration</h3>
 
-<!-- nmap -->
-<h5>nmap</h5>
+<h5>OSINT</h5>
 
   
 
@@ -98,57 +104,205 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link show active" data-toggle="tab" href="#nmap_loud">Loud</a>
+        <a class="nav-link show active" data-toggle="tab" href="#wb_cert">CA and Cert</a>
     </li>
     
      
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#nmap_quiet">Quiet</a>
+            <a class="nav-link" data-toggle="tab" href="#wb_whois">WHOIS</a>
+        </li>
+        
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#wb_robots">robots.txt</a>
         </li>
         
     
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane show active" id="nmap_loud">
+    <div class="tab-pane show active" id="wb_cert">
         
-<p>Run these in parallel.</p>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sC -sV -oG services.nmap & </code>
-</div>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -T5 -p- -oG alltcp.nmap <span class='RHOST'>RHOST</span> & </code>
-</div>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sU --max-retries 3 -oG udp.nmap <span class='RHOST'>RHOST</span> & </code>
-</div><br>
-<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
-<p>If stuck, hit 'em with the:</p>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap <span class='RHOST'>RHOST</span></code>
-</div>
-
+Sometimes there's valuable info in the certificate of a website. Make sure to check it, especially if your browser alerts you that something's wrong.
 
     </div>
     
     
-    <div class="tab-pane" id="nmap_quiet">
+    <div class="tab-pane" id="wb_whois">
         
+A <span><code>whois</code></span> lookup helps sometimes.
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>whois <span class='RHOST'>RHOST</span></code>
+</div>
 
-<p>Individually investigate interesting ports after output of the first command.</p>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sT -Pn -T1 -oG quietscan <span class='RHOST'>RHOST</span></code>
-</div>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>    
-<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap <span class='RHOST'>RHOST</span></code>
-</div>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap <span class='RHOST'>RHOST</span></code>
+    </div>
+    
+    
+    <div class="tab-pane" id="wb_robots">
+        
+Make sure to check the <span><code>robots.txt</code></span> of the website.
+
+    </div>
+    
+    
 </div><br>
-<p>Or, just scan common ports.</p>
+
+
+
+<h5>GoBuster</h5>
+
+  
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#gb_direnum">GoBuster Dir Enumeration</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#gb_install">Install</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="gb_direnum">
+        
+Enumerate a site's directories:
 <div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap <span class='RHOST'>RHOST</span> &</code>
+<code>gobuster dir -u http://<span class='RHOST'>RHOST</span>/ -w /usr/share/wordlists/dirb/common.txt</code>
 </div>
+
+    </div>
+    
+    
+    <div class="tab-pane" id="gb_install">
+        
+<span><code>GoBuster</code></span> binaries can be found <a href='https://github.com/OJ/gobuster/releases'>here</a>.
+    </div>
+    
+    
+</div><br>
+
+
+
+<h5>wfuzz</h5>
+
+  
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#wfuzz1">wfuzzone</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#wfuzz2">wfuzztwo</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="wfuzz1">
+        
+wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool.
+
+    </div>
+    
+    
+    <div class="tab-pane" id="wfuzz2">
+        
+wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool. #2.
+    </div>
+    
+    
+</div><br>
+
+
+
+<h3>Entry</h3>
+
+<h5>PHP Shells</h5>
+
+  
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#ws_weevely">Weevely PHP Shell Generator</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#ws_p0wny">p0wny PHP Shell</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="ws_weevely">
+        
+Weevely can generate compact binding webshells. Build:
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>weevely generate password ./shell.php</code>
+</div>
+Connect:
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>weevely <span class='RHOST'>RHOST</span>/shell.php password</code>
+</div>
+
+    </div>
+    
+    
+    <div class="tab-pane" id="ws_p0wny">
+        
+<span><code>p0wny</code></span> binding webshell can be found <a href='https://raw.githubusercontent.com/flozz/p0wny-shell/master/shell.php'>here</a>.
+    </div>
+    
+    
+</div><br>
+
+
+
+<h5>HTTP Auth</h5>
+
+  
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#httpauth_vbypass">Verb Bypass</a>
+    </li>
+    
+     
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#httpauth_bruteforce">Bruteforcing</a>
+        </li>
+        
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="httpauth_vbypass">
+        
+1
+
+    </div>
+    
+    
+    <div class="tab-pane" id="httpauth_bruteforce">
+        
+2
+
     </div>
     
     
@@ -156,13 +310,10 @@
 
 
 				
-			initial access
-				gobuster [gobuster link] [wordlist download]
-				[gobuster syntax]
-
+<!--
 				nikto [nikto syntax]
 
-				check robots.txt
+
 				find forms, editable fields, user input, login forms
 					try to make account, check for sql injections, xss, editable pages
 				sqlmap [sqlmap syntax]
@@ -180,7 +331,7 @@
 				rpc stuff
 			
 				common exploits
-				searchsploit [webapp]
+				searchsploit [webapp] -->
 
 
 
@@ -193,8 +344,8 @@
 <footer class="footer mt-auto py-3">
     <div class="container">
         <span class="text-muted">
-            @sourque // made with bootstrap and 
-            <img src="/assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
+            @<a href="https://github.com/sourque">sourque</a> // made with bootstrap and 
+            <img src="assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
         </span>
     </div>
 </footer>
@@ -202,8 +353,8 @@
 
 
     <!-- JS -->
-    <script src="/assets/bootstrap.js"></script>
-    <script src="/assets/main.js"></script>
+    <script src="assets/bootstrap.js"></script>
+    <script src="assets/main.js"></script>
 
 </body>
 </html>

