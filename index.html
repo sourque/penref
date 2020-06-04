@@ -1,14 +1,17 @@
 ---
 layout: base
-title: general
+title: penref
 ---
 
-<p class="lead">General pentesting snippets for Linux and Windows</p>
+<p class="lead">Pentesting snippets for Linux and Windows</p>
+
+<!-- ENUMERATION ----------------------
+-------------------------------------->
 
 <h3>Enumeration</h3>
 <h5>nmap</h5>
-{% assign tabs = "nmap_loud|nmap_quiet" %}
-{% assign tabnames = "Loud|Quiet" %} {% assign content = "
+{% assign tabs = "nmap_loud|nmap_quiet|nmap_fast" %}
+{% assign tabnames = "Loud|Quiet|Fast" %} {% assign content = "
 <p>Run these in parallel.</p>
 SCODE
 <code>nmap -sC -sV -oG services.nmap & </code>
@@ -38,7 +41,13 @@ SCODE
 <p>Or, just scan common ports.</p>
 SCODE
 <code>nmap -sT -T4 -P0 -T2 -p22,80,443 -oG common.nmap RHOST &</code>
-</div>" %} {% include block.html %}
+</div>
+|
+<p>This will print open ports as it finds them. Helpful for when you need to be <i>very</i> fast.</p>
+SCODE
+<code>nmap -n -Pn -v --max-retries 1 -T4 -p- RHOST</code>
+</div>
+" %} {% include block.html %}
 
 <h5>OSINT</h5>
 {% assign tabs = "wb_cert|wb_whois|wb_robots" %}
@@ -63,17 +72,13 @@ SCODE
 |
 <span><code>GoBuster</code></span> binaries can be found <a href='https://github.com/OJ/gobuster/releases'>here</a>." %} {% include block.html %}
 
-<h5>wfuzz</h5>
-{% assign tabs = "wfuzz1|wfuzz2" %}
-{% assign tabnames = "wfuzzone|wfuzztwo" %} {% assign content = "
-wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool.
-|
-wfuzz is really cool, it can bruteforce content, fuzz HTTP options, etc. Really nice tool. #2." %} {% include block.html %}
+
+<!-- ENTRY ----------------------------
+-------------------------------------->
 
 <h3>Entry</h3>
 
-
-<h5>reverse shells</h5>
+<h5>Reverse Shells</h5>
 {% assign tabs = "rs_mknod|rs_devtcp"%} {% assign tabnames = "mknod method|/dev/tcp method" %} {% assign content =  "
 On your local computer:
 SCODE
@@ -108,17 +113,28 @@ SCODE
 <code>weevely RHOST/shell.php password</code>
 </div>
 |
-<span><code>p0wny</code></span> binding webshell can be found <a href='https://raw.githubusercontent.com/flozz/p0wny-shell/master/shell.php'>here</a>." %} {% include block.html %}
+<span><code>p0wny</code></span> bind webshell can be found <a href='https://raw.githubusercontent.com/flozz/p0wny-shell/master/shell.php'>here</a>." %} {% include block.html %}
 
-<h5>HTTP Auth</h5>
-{% assign tabs = "httpauth_vbypass|httpauth_bruteforce" %}
-{% assign tabnames = "Verb Bypass|Bruteforcing" %} {% assign content = "
-1
-|
-2
+
+<!-- DEFENSIVE ------------------------
+-------------------------------------->
+
+<h3>Defensive</h3>
+
+<h5>Assigning Boxes</h5>
+{% assign tabs = "kill_other_conns|nothing" %}
+{% assign tabnames = "Kill All Other Connections|Nothing, yet" %} {% assign content = "
+If your net utils are up to date, you can kill all connections (or, all sockets) not from your IP address.
+SCODE
+<code>ss -Kn '( ! src 10.9.24.211  )'</code>
+</div>
 " %} {% include block.html %}
 
-<h3>uh, other stuff?</h3>
+
+<!-- META -----------------------------
+-------------------------------------->
+
+<h3>Meta</h3>
 
 <h5>Assigning Boxes</h5>
 {% assign tabs = "assign_withtime|assign_withouttime" %}
@@ -135,3 +151,4 @@ Don't use <span><code>massscan</code></span> if time permits, it is more prone t
 |
 <span><code>Windows + S</code></span> then paste into a Google (or Word) Doc.
 " %} {% include block.html %}
+<br>
